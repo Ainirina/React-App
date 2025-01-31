@@ -2,12 +2,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Login from '../mon-resto/app/screens/Login';
-import List from '../mon-resto/app/screens/List';
-import Details from '../mon-resto/app/screens/Details';
+
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { FIREBASE_AUTH } from './FireBaseConfig';
+import List from './app/screens/List';
+import Details from './app/screens/Details';
+import Login from './app/screens/Login';
 
 const Stack = createNativeStackNavigator();
 
