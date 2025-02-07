@@ -31,6 +31,7 @@ export default function TabLayout() {
  
 
   return (
+    <>
     <Tabs
     screenOptions={{
       tabBarActiveTintColor: "#FFA201",
@@ -87,5 +88,8 @@ export default function TabLayout() {
           }}
         />
     </Tabs>
+    <StatusBar backgroundColor="#161622" style="light" />
+
+    </>
   );
 }
