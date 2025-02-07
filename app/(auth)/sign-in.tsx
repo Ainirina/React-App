@@ -77,9 +77,8 @@ const SignIn = () => {
           <FormField
             title="Password"
             value={form.password}
-            handleChangeText={(e) => handleChangeText('password', e)}
+            handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
-            secureTextEntry
           />
 
           {/* Submit Button */}
