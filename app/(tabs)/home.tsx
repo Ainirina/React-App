@@ -24,21 +24,8 @@ export default function HomeScreen() {
   };
   return (
     <SafeAreaView className="bg-primary h-full">
-     
-
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        contentContainerStyle={{ paddingBottom: 20, paddingHorizontal: 10 }}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <PlateCard item={item} />
-        )}
-
-        ListHeaderComponent={() => (
-          <View className="flex my-6 px-4 space-y-6">
+       <View className="flex my-6 px-4 space-y-6">
+            
             <View className="flex justify-between items-start flex-row mb-6">
               <View>
                 <Text className="font-pmedium text-sm text-gray-100">
@@ -67,7 +54,24 @@ export default function HomeScreen() {
             </View>
 
           </View>
+
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        contentContainerStyle={{ paddingBottom: 20, paddingHorizontal: 10 }}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <PlateCard item={item} />
         )}
+
+        // ListHeaderComponent={() => (
+          
+        
+          
+        // )}
+        
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }

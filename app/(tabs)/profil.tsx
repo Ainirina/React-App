@@ -1,56 +1,78 @@
-import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { FIREBASE_AUTH } from '../../FireBaseConfig'; // Assurez-vous que votre config Firebase est dans ce fichier
+import { FIREBASE_AUTH } from '../../FireBaseConfig';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router'; // Importation du hook pour la redirection
+import { useRouter } from 'expo-router';
 
 const ProfilScreen = () => {
-  const [userEmail, setUserEmail] = useState<string | null>(null);
-  const router = useRouter(); // Hook pour rediriger l'utilisateur
+  const [user, setUser] = useState<{ email: string | null; photoURL?: string | null; displayName?: string | null }>({
+    email: null,
+    photoURL: null,
+    displayName: null
+  });
+  
+  const router = useRouter();
 
-  // Récupérer l'email de l'utilisateur à l'ouverture de la page
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
       if (user) {
-        setUserEmail(user.email);
+        setUser({
+          email: user.email,
+          photoURL: user.photoURL || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png', // Image par défaut
+          displayName: user.displayName || 'Utilisateur'
+        });
       } else {
-        setUserEmail(null);
+        setUser({ email: null, photoURL: null, displayName: null });
       }
     });
 
-    return unsubscribe; // Nettoyer le listener lors de la sortie de la page
+    return unsubscribe;
   }, []);
 
-  // Fonction pour gérer la déconnexion
   const handleLogout = async () => {
     try {
       await signOut(FIREBASE_AUTH);
       console.log('Utilisateur déconnecté');
-      // Redirection vers la page index après la déconnexion
-      router.push('/'); // Redirige vers la page d'accueil ou index
+      router.push('/');
     } catch (error) {
       console.error('Erreur lors de la déconnexion:', error);
     }
   };
 
   return (
-    <SafeAreaView className="bg-gray-100 flex-1 pt-6">
-      <View className="flex-1 justify-center items-center space-y-8 px-4">
-        <Text className="text-2xl font-bold text-gray-900">Profil</Text>
-        
-        {userEmail ? (
-          <Text className="text-lg text-gray-700">Email: {userEmail}</Text>
+    <SafeAreaView className="bg-gray-100 flex-1">
+      {/* Header du profil */}
+      <View className="bg-blue-500 h-36 w-full rounded-b-3xl shadow-lg"></View>
+
+      {/* Contenu du profil */}
+      <View className="flex-1 items-center px-4 mt-[-50px]">
+        {/* Photo de profil */}
+        <Image
+          source={{ uri: user.photoURL || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }}
+          className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
+        />
+
+        {/* Nom de l'utilisateur */}
+        <Text className="text-2xl font-semibold text-gray-900 mt-3">{user.displayName}</Text>
+
+        {/* Email */}
+        {user.email ? (
+          <Text className="text-lg text-gray-600">{user.email}</Text>
         ) : (
           <Text className="text-lg text-gray-500">Aucun utilisateur connecté</Text>
         )}
 
-        <TouchableOpacity
-          onPress={handleLogout}
-          className="bg-red-500 text-white py-3 px-8 rounded-full"
-        >
-          <Text className="font-semibold text-white text-center">Déconnexion</Text>
-        </TouchableOpacity>
+        {/* Boutons */}
+        <View className="mt-6 space-y-4 w-full px-6">
+          {/* <TouchableOpacity className="bg-blue-600 py-3 rounded-full shadow" onPress={() => console.log('Modifier le profil')}>
+            <Text className="text-center text-white font-semibold">Modifier le profil</Text>
+          </TouchableOpacity> */}
+
+          <TouchableOpacity className="bg-red-500 py-3 rounded-full shadow" onPress={handleLogout}>
+            <Text className="text-center text-white font-semibold">Déconnexion</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
