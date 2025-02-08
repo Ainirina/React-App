@@ -4,9 +4,6 @@ import { FlatList, Image, Text, View, TouchableOpacity, RefreshControl } from 'r
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchInput from '@/components/SearchInput';
 import PlateCard from '@/components/PlateCard';
-import { useNotification } from '@/context/NotificatonContext';
-
-import * as Notifications from 'expo-notifications';
 
 const data = [
   { id: '1', name: 'Burger', price: '$5.99', image: 'https://example.com/burger.jpg' },
@@ -18,10 +15,6 @@ const data = [
 ];
 
 export default function HomeScreen() {
-const {expoPushToken,notification,error}=useNotification();
-if (error) {
-  return <Text>Error: {error.message}</Text>;
-}
 
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,15 +26,7 @@ if (error) {
     setRefreshing(false);
   };
 
-  const handleTestNotification = async () => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Test Notification",
-        body: "Ceci est une notification de test !",
-      },
-      trigger: null,
-    });
-  };
+
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
@@ -73,9 +58,6 @@ if (error) {
                Nouveau plats
               </Text>
 
-              <TouchableOpacity onPress={handleTestNotification} className="bg-blue-500 p-3 rounded-lg">
-            <Text className="text-white text-center">Tester la Notification </Text>
-          </TouchableOpacity>
             </View>
 
           </View>

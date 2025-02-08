@@ -4,6 +4,9 @@ import { useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from '@/constants';
 import Modal from 'react-native-modal';
+import { useNotification } from '@/context/NotificatonContext';
+
+import * as Notifications from 'expo-notifications';
 
 const Command = () => {
   const { name, price } = useLocalSearchParams();
@@ -34,11 +37,25 @@ const Command = () => {
   const handlePayment = () => {
     setIsModalVisible(true); // Ouvrir le modal
   };
-
+  const {expoPushToken,notification,error}=useNotification();
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
+  
+ const handleTestNotification = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Cooking",
+        body: "Votre commande à bien été prise en compte!",
+      },
+      trigger: null,
+    });
+  };
   // Confirmer le paiement
   const confirmPayment = () => {
     setIsModalVisible(false); // Fermer le modal
     Alert.alert("Paiement effectué", "Votre paiement a été validé avec succès.", [{ text: "OK" }]);
+    handleTestNotification();
     clearCart(); // Vider le panier après paiement
   };
 

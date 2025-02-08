@@ -24,7 +24,7 @@ const Search = () => {
   // Filtrer les plats en fonction de la recherche
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(query.toLowerCase())
-  );
+  )
 
   const onRefresh = async () => {
     setRefreshing(true);
