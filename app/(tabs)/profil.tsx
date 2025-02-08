@@ -1,82 +1,121 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { FIREBASE_AUTH } from '../../FireBaseConfig';
-import { signOut, onAuthStateChanged } from 'firebase/auth';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { Stack } from 'expo-router';
+import React, { useState, useEffect } from "react";
+import { View, Image, TouchableOpacity, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { FIREBASE_AUTH } from "../../FireBaseConfig"; // Assurez-vous que ce chemin est correct
+import { icons } from "../../constants"; // Assurez-vous d'avoir une icône de déconnexion
+import InfoBox from "../../components/InfoBox"; // Assurez-vous d'avoir ce composant
 
 const ProfilScreen = () => {
-  // const [user, setUser] = useState<{ email: string | null; photoURL?: string | null; displayName?: string | null }>({
-  //   email: null,
-  //   photoURL: null,
-  //   displayName: null
-  // });
-  
-  // const router = useRouter();
+  const [user, setUser] = useState<{
+    email: string | null;
+    photoURL?: string | null;
+    displayName?: string | null;
+  }>({
+    email: null,
+    photoURL: null,
+    displayName: null,
+  });
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
-  //     if (user) {
-  //       setUser({
-  //         email: user.email,
-  //         photoURL: user.photoURL || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png', // Image par défaut
-  //         displayName: user.displayName || 'Utilisateur'
-  //       });
-  //     } else {
-  //       setUser({ email: null, photoURL: null, displayName: null });
-  //     }
-  //   });
+  const router = useRouter();
 
-  //   return unsubscribe;
-  // }, []);
+  // Écouter les changements d'état de l'authentification
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      if (user) {
+        setUser({
+          email: user.email,
+          photoURL: user.photoURL || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", // Image par défaut
+          displayName: user.displayName || "Utilisateur",
+        });
+      } else {
+        setUser({ email: null, photoURL: null, displayName: null });
+      }
+    });
 
-  // const handleLogout = async () => {
-  //   try {
-  //     await signOut(FIREBASE_AUTH);
-  //     console.log('Utilisateur déconnecté');
-  //     router.push('/');
-  //   } catch (error) {
-  //     console.error('Erreur lors de la déconnexion:', error);
-  //   }
-  // };
+    return unsubscribe; // Désabonnement lors du démontage du composant
+  }, []);
 
-  // return (
-  //   <SafeAreaView className="bg-gray-100 flex-1">
-  //     {/* Header du profil */}
-  //     <View className="bg-blue-500 h-36 w-full rounded-b-3xl shadow-lg"></View>
+  // Gérer la déconnexion
+  const handleLogout = async () => {
+    try {
+      await signOut(FIREBASE_AUTH);
+      console.log("Utilisateur déconnecté");
+      router.push("/"); // Rediriger vers la page d'accueil
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion:", error);
+    }
+  };
 
-  //     {/* Contenu du profil */}
-  //     <View className="flex-1 items-center px-4 mt-[-50px]">
-  //       {/* Photo de profil */}
-  //       <Image
-  //         source={{ uri: user.photoURL || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }}
-  //         className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
-  //       />
+  return (
+    <SafeAreaView className="bg-primary h-full">
+      <View className="w-full flex justify-center items-center mt-6 mb-12 px-4">
+        {/* Bouton de déconnexion */}
+        <TouchableOpacity
+          onPress={handleLogout}
+          className="flex w-full items-end mb-10"
+        >
+          <Image
+            source={icons.logout} // Assurez-vous d'avoir une icône de déconnexion
+            resizeMode="contain"
+            className="w-8 h-8" // Taille agrandie
+          />
+        </TouchableOpacity>
 
-  //       {/* Nom de l'utilisateur */}
-  //       <Text className="text-2xl font-semibold text-gray-900 mt-3">{user.displayName}</Text>
+        {/* Photo de profil */}
+      <View className="w-48 h-48 border-2 border-secondary rounded-full flex justify-center items-center mb-4">
+  <Image
+    source={{ uri: user?.photoURL }}
+    className="w-[95%] h-[95%] rounded-full"
+    resizeMode="cover"
+  />
+</View>
 
-  //       {/* Email */}
-  //       {user.email ? (
-  //         <Text className="text-lg text-gray-600">{user.email}</Text>
-  //       ) : (
-  //         <Text className="text-lg text-gray-500">Aucun utilisateur connecté</Text>
-  //       )}
+        {/* Nom d'utilisateur */}
+        <InfoBox
+          title={user?.displayName || "Utilisateur"}
+          containerStyles="mt-5"
+          titleStyles="text-2xl font-bold" // Taille et style agrandis
+        />
 
-  //       {/* Boutons */}
-  //       <View className="mt-6 space-y-4 w-full px-6">
-  //         {/* <TouchableOpacity className="bg-blue-600 py-3 rounded-full shadow" onPress={() => console.log('Modifier le profil')}>
-  //           <Text className="text-center text-white font-semibold">Modifier le profil</Text>
-  //         </TouchableOpacity> */}
+        {/* Statistiques (Posts et Abonnés) */}
+        <View className="mt-5 flex flex-row">
+          <InfoBox
+            title="0" // Remplacez par le nombre réel de posts si nécessaire
+            subtitle="Posts"
+            titleStyles="text-2xl font-bold" // Taille et style agrandis
+            containerStyles="mr-10"
+          />
+          <InfoBox
+            title="1.2k"
+            subtitle="Abonnés"
+            titleStyles="text-2xl font-bold" // Taille et style agrandis
+          />
+        </View>
 
-  //         <TouchableOpacity className="bg-red-500 py-3 rounded-full shadow" onPress={handleLogout}>
-  //           <Text className="text-center text-white font-semibold">Déconnexion</Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //     </View>
-  //   </SafeAreaView>
-  // );
+        {/* Liens "Edit Nom" et "Edit Photo" */}
+        <View className="mt-8 w-full">
+          <TouchableOpacity className="flex-row items-center justify-between py-3 border-b border-gray-700">
+            <Text className="text-lg text-white">Edité Nom </Text>
+            <Text className="text-lg text-gray-400">{">"}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row items-center justify-between py-3 border-b border-gray-700">
+            <Text className="text-lg text-white">Edité Photo </Text>
+            <Text className="text-lg text-gray-400">{">"}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row items-center justify-between py-3 border-b border-gray-700">
+            <Text className="text-lg text-white">Edité Mail </Text>
+            <Text className="text-lg text-gray-400">{">"}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row items-center justify-between py-3 border-b border-gray-700">
+            <Text className="text-lg text-white">Confidentialité </Text>
+            <Text className="text-lg text-gray-400">{">"}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 export default ProfilScreen;

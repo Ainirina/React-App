@@ -33,11 +33,11 @@ export default function Welcome() {
               <Text className="text-secondary-200">Cooking</Text>
             </Text>
 
-            <Image
+            {/* <Image
               source={images.path}
               className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
               resizeMode="contain"
-            />
+            /> */}
           </View>
     
           <CustomButton
