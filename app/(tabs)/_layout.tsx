@@ -5,6 +5,7 @@ import { Image, Text, View } from "react-native";
 import { icons } from "../../constants";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import "../../global.css";
+import { Stack } from 'expo-router';
 
 const TabIcon = ({ icon, color }) => {
   return (

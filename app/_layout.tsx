@@ -8,6 +8,17 @@ import 'react-native-reanimated';
 import '../global.css';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { NotificationProvider } from '@/context/NotificatonContext';
+import React from 'react';
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -37,6 +48,7 @@ export default function RootLayout() {
   }
 
   return (
+    <NotificationProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -47,5 +59,6 @@ export default function RootLayout() {
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
+    </NotificationProvider>
   );
 }

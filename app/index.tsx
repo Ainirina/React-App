@@ -1,19 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image,View ,ScrollView,Text} from 'react-native';
+import { Image,View ,ScrollView,Text,StyleSheet} from 'react-native';
 
 import { SafeAreaView } from "react-native-safe-area-context";
-
-
-
 import { images } from "../constants";
 import { router } from 'expo-router';
 import CustomButton from '../components/CustomButton';
-
+import React , { useEffect } from 'react';
 
 
 export default function Welcome() {
+
   return (
+    
     <SafeAreaView className='bg-primary h-full' >
+    
       <ScrollView contentContainerStyle={{ height:'100%'}} >
         <View className='w-full justify-center items-center h-full px-4'>
         <Image
@@ -52,3 +52,11 @@ export default function Welcome() {
 }
 
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
