@@ -24,6 +24,7 @@ if (error) {
 }
 
 
+  const [searchQuery, setSearchQuery] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
@@ -41,7 +42,9 @@ if (error) {
       trigger: null,
     });
   };
-
+  const filteredData = data.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  )
   return (
     <SafeAreaView className="bg-primary h-full">
        <View className="flex my-6 px-4 space-y-6">
@@ -51,7 +54,7 @@ if (error) {
                 <Text className="font-pmedium text-sm text-gray-100">
                   Bienvenue !
                 </Text>
-                <Text className="text-2xl font-psemibold text-white">
+                <Text className="text-2xl mt-5 font-psemibold text-white">
                   Tiffany
                 </Text>
               </View>
@@ -64,14 +67,14 @@ if (error) {
                 />
               </View>
             </View>
-            <SearchInput initialQuery={undefined} />
+            <SearchInput initialQuery={undefined} onSearch={undefined} />
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-lg font-pregular text-gray-100 mb-3">
                Nouveau plats
               </Text>
 
               <TouchableOpacity onPress={handleTestNotification} className="bg-blue-500 p-3 rounded-lg">
-            <Text className="text-white text-center">Tester la Notification</Text>
+            <Text className="text-white text-center">Tester la Notification </Text>
           </TouchableOpacity>
             </View>
 

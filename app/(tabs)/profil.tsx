@@ -91,7 +91,7 @@ const ProfilScreen = () => {
             title="1.2k"
             subtitle="Abonnés"
             titleStyles="text-2xl font-bold" // Taille et style agrandis
-          />
+            containerStyles={undefined}          />
         </View>
 
         {/* Liens "Edit Nom" et "Edit Photo" */}
