@@ -5,6 +5,7 @@ import { Image, Text, View } from "react-native";
 import { icons } from "../../constants";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import "../../global.css";
+import { Stack } from 'expo-router';
 
 const TabIcon = ({ icon, color }) => {
   return (
@@ -31,9 +32,10 @@ export default function TabLayout() {
  
 
   return (
+    <>
     <Tabs
     screenOptions={{
-      tabBarActiveTintColor: "#FFA201",
+      tabBarActiveTintColor: "#0ED700",
       tabBarInactiveTintColor: "#CDCDE0",
       tabBarShowLabel: false,
       tabBarStyle: {
@@ -87,5 +89,8 @@ export default function TabLayout() {
           }}
         />
     </Tabs>
+    <StatusBar backgroundColor="#161622" style="light" />
+
+    </>
   );
 }

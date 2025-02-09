@@ -1,10 +1,23 @@
-import { useEffect, useState } from "react";
-import { FlatList, Image, Text, View, ActivityIndicator } from "react-native";
+
+import { images } from '@/constants';
+import React, {  useEffect, useState } from 'react';
+import { FlatList, Image, Text, View, TouchableOpacity, RefreshControl,ActivityIndicator } from 'react-native';
+
 import { SafeAreaView } from "react-native-safe-area-context";
+import SearchInput from '@/components/SearchInput';
+import PlateCard from '@/components/PlateCard';
+
 
 export default function HomeScreen() {
   const [recettes, setRecettes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+          
+  const onRefresh = async () => {
+    setRefreshing(true);
+  
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     fetch("https://symfony-app-production.up.railway.app/recettes") 
@@ -28,7 +41,36 @@ export default function HomeScreen() {
   }
 
   return (
-    <SafeAreaView className="bg-primary">
+    <SafeAreaView className="bg-primary h-full">
+ <View className="flex my-6 px-4 space-y-6">
+            
+            <View className="flex justify-between items-start flex-row mb-6">
+              <View>
+                <Text className="font-pmedium text-sm text-gray-100">
+                  Bienvenue !
+                </Text>
+                <Text className="text-2xl mt-5 font-psemibold text-white">
+                  Tiffany
+                </Text>
+              </View>
+
+              <View className="mt-1.5">
+                <Image
+                  source={images.logoSmall}
+                  className="w-9 h-10"
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
+            <SearchInput initialQuery={undefined} onSearch={undefined} />
+            <View className="w-full flex-1 pt-5 pb-8">
+              <Text className="text-lg font-pregular text-gray-100 mb-3">
+               Nouveau plats
+              </Text>
+
+            </View>
+
+          </View>
       <FlatList 
         data={recettes}
         keyExtractor={(item) => item.id.toString()} // Assurez-vous que `id` est un nombre ou une chaîne
@@ -45,7 +87,12 @@ export default function HomeScreen() {
               <Text className="text-green-500 text-sm">{item.tempsCuisson}</Text>
             </View>
           </View>
+
         )}
+        
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );

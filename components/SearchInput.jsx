@@ -4,7 +4,7 @@ import { View, TouchableOpacity, Image, TextInput, Alert } from "react-native";
 
 import { icons } from "../constants";
 
-const SearchInput = ({ initialQuery }) => {
+const SearchInput = ({ initialQuery, onSearch }) => {
   const pathname = usePathname();
   const [query, setQuery] = useState(initialQuery || "");
 
@@ -13,7 +13,7 @@ const SearchInput = ({ initialQuery }) => {
       <TextInput
         className="text-base mt-0.5 text-white flex-1 font-pregular"
         value={query}
-        placeholder="Search a video topic"
+        placeholder="Rechercher un plat"
         placeholderTextColor="#CDCDE0"
         onChangeText={(e) => setQuery(e)}
       />
@@ -22,8 +22,8 @@ const SearchInput = ({ initialQuery }) => {
         onPress={() => {
           if (query === "")
             return Alert.alert(
-              "Missing Query",
-              "Please input something to search results across database"
+              "Requête manquante",
+              "Veuillez entrer quelque chose pour rechercher des plats."
             );
 
           if (pathname.startsWith("/search")) router.setParams({ query });

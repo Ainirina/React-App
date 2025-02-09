@@ -108,9 +108,8 @@ const SignIn = () => {
           <FormField
             title="Mot de passe"
             value={form.password}
-            handleChangeText={(e) => handleChangeText('password', e)}
+            handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
-            secureTextEntry
           />
 
           {/* Bouton de connexion */}
