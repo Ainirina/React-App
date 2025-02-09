@@ -23,7 +23,7 @@ export default function Welcome() {
           />
           <Image
             source={images.cards}
-            className="max-w-[390px] w-full h-[30§§8px]"
+            className="max-w-[380px] w-full h-[308px]"
             resizeMode="contain"
           />
            <View className="relative mt-5">
@@ -43,7 +43,7 @@ export default function Welcome() {
           <CustomButton
             title="Se connecter"
             handlePress={() => router.push("/sign-in")}
-            containerStyles="w-full mt-7" textStyles={undefined} isLoading={undefined}          />
+            containerStyles="w-full mt-7" textStyles={undefined} isLoading={undefined}  />
         </View>
       </ScrollView>
       <StatusBar backgroundColor="#161622" style="light" />
