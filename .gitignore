@@ -5,3 +5,4 @@
 expo-env.d.ts
 # @end expo-cli
 node_modules
+node_modules/react-native-appwrite/node_modules/@react-native/debugger-frontend/dist/third-party/front_end/models/issues_manager/descriptions/genericFormInputAssignedAutocompleteValueToIdOrNameAttributeError.md
