@@ -43,13 +43,13 @@ export default function HomeScreen() {
       <SafeAreaView className="bg-primary flex-1 justify-center items-center">
          <View className="flex my-6 px-4 space-y-6">
             
-            <View className="flex justify-between items-start flex-row mb-6">
+         <View className="flex justify-between items-start flex-row mb-6">
               <View>
                 <Text className="font-pmedium text-sm text-gray-100">
-                  Bienvenue !
+                  Bienvenue sur
                 </Text>
-                <Text className="text-2xl mt-5 font-psemibold text-white">
-                  Tiffany
+                <Text className="text-2xl mt-3 font-psemibold text-white">
+                  Cooking
                 </Text>
               </View>
 
@@ -77,10 +77,10 @@ export default function HomeScreen() {
             <View className="flex justify-between items-start flex-row mb-6">
               <View>
                 <Text className="font-pmedium text-sm text-gray-100">
-                  Bienvenue !
+                  Bienvenue sur
                 </Text>
-                <Text className="text-2xl mt-5 font-psemibold text-white">
-                  Tiffany
+                <Text className="text-2xl mt-3 font-psemibold text-white">
+                  Cooking
                 </Text>
               </View>
 
@@ -93,12 +93,7 @@ export default function HomeScreen() {
               </View>
             </View>
             <SearchInput initialQuery={undefined} onSearch={undefined} />
-            <View className="w-full flex-1 pt-5 pb-8">
-              <Text className="text-lg font-pregular text-gray-100 mb-3">
-               Nouveau plats
-              </Text>
-
-            </View>
+         
 
           </View>
      
@@ -109,7 +104,7 @@ export default function HomeScreen() {
           <PlateCard 
             item={{ 
               id: item.id,
-              name: item.nom +" ( c:" +item.tempsCuisson +" min )"  , 
+              name: item.nom +" ( t:" +item.tempsCuisson +" min )"  , 
               price: item.prix +" Ar", 
               image: `data:image/jpeg;base64,${item.photo}` 
             }}

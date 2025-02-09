@@ -75,7 +75,7 @@ const Command = () => {
   {/* PRIX TOTAL ET BOUTON PAYER */}
   <View className=" p-4 rounded-md mb-6 shadow-md">
           <Text className="text-xl font-semibold text-green-600">Prix Total</Text>
-          <Text className="text-xl text-green-600 font-bold">${totalPrice.toFixed(2)}</Text>
+          <Text className="text-xl text-green-600 font-bold">{totalPrice.toFixed(2)} Ar</Text>
           <TouchableOpacity
             onPress={handlePayment}
             className="mt-4 bg-green-500 p-3 rounded-md"
