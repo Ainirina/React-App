@@ -104,7 +104,7 @@ export default function HomeScreen() {
           <PlateCard 
             item={{ 
               id: item.id,
-              name: item.nom +" ( t:" +item.tempsCuisson +" min )"  , 
+              name: item.nom +" ( t:" +item.tempsCuisson +" s )"  , 
               price: item.prix +" Ar", 
               image: `data:image/jpeg;base64,${item.photo}` 
             }}

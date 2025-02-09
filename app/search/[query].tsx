@@ -81,7 +81,7 @@ const Search = () => {
             <PlateCard 
               item={{ 
                 id: item.id,
-                name: `${item.nom} ( c: ${item.tempsCuisson} min )`,  
+                name: `${item.nom} ( c: ${item.tempsCuisson} s )`,  
                 price: `${item.prix} Ar`, 
                 image: `data:image/jpeg;base64,${item.photo}`
               }}
