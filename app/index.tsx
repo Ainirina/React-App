@@ -18,12 +18,12 @@ export default function Welcome() {
         <View className='w-full justify-center items-center h-full px-4'>
         <Image
             source={images.logo}
-            className="w-[130px] h-[84px]"
+            className="w-[200px] h-[100px]"
             resizeMode="contain"
           />
           <Image
             source={images.cards}
-            className="max-w-[380px] w-full h-[298px]"
+            className="max-w-[390px] w-full h-[30§§8px]"
             resizeMode="contain"
           />
            <View className="relative mt-5">
