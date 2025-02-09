@@ -5,8 +5,9 @@ import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 import { images } from '@/constants';
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
-import { FIREBASE_AUTH } from '../../FireBaseConfig'; // Ensure FIREBASE_AUTH is initialized
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../FireBaseConfig'; // Import Firestore
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore'; // Firestore functions
 
 const SignUp = () => {
   const [isSubmitting, setSubmitting] = useState(false);
@@ -29,6 +30,16 @@ const SignUp = () => {
       // Update the display name (username)
       await updateProfile(user, {
         displayName: username,
+      });
+
+      // Enregistrer l'utilisateur dans Firestore
+      const userDocRef = doc(FIREBASE_DB, 'Client', user.uid); // Utiliser l'UID comme ID de document
+      await setDoc(userDocRef, {
+        uid: user.uid, // Stocker l'UID pour référence
+        username: username,
+        email: email,
+        photoURL: form.photo || "", // Optionnel : URL de la photo de profil
+        createdAt: new Date().toISOString(), // Date de création
       });
 
       // After successful sign-up, navigate to the home page

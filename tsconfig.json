@@ -15,5 +15,5 @@
     "react.d.ts",
     "nativewind-env.d.ts",
     "expo-env.d.ts"
-  ]
+, "app/(auth)/sign-in.tsx", "app/(auth)/sign-up.tsx"  ]
 }
