@@ -1,38 +1,48 @@
+
 import { images } from '@/constants';
-import React, { useState } from 'react';
-import { FlatList, Image, Text, View, TouchableOpacity, RefreshControl } from 'react-native';
+import React, {  useEffect, useState } from 'react';
+import { FlatList, Image, Text, View, TouchableOpacity, RefreshControl,ActivityIndicator } from 'react-native';
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchInput from '@/components/SearchInput';
 import PlateCard from '@/components/PlateCard';
 
-const data = [
-  { id: '1', name: 'Burger', price: '$5.99', image: 'https://example.com/burger.jpg' },
-  { id: '2', name: 'Pizza', price: '$8.99', image: 'https://example.com/pizza.jpg' },
-  { id: '3', name: 'Pasta', price: '$7.50', image: 'https://example.com/pasta.jpg' },
-  { id: '4', name: 'Sushi', price: '$12.00', image: 'https://example.com/sushi.jpg' },
-  { id: '5', name: 'Tacos', price: '$4.99', image: 'https://example.com/tacos.jpg' },
-  { id: '6', name: 'Vary', price: '$7.99', image: 'https://example.com/Vary.jpg' },
-];
 
 export default function HomeScreen() {
-
-
-  const [searchQuery, setSearchQuery] = useState("");
+  const [recettes, setRecettes] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-
+          
   const onRefresh = async () => {
     setRefreshing(true);
   
     setRefreshing(false);
   };
 
+  useEffect(() => {
+    fetch("https://symfony-app-production.up.railway.app/recettes") 
+      .then((response) => response.json())
+      .then((data) => {
+        setRecettes(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des recettes:", error);
+        setLoading(false);
+      });
+  }, []);
 
-  const filteredData = data.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  if (loading) {
+    return (
+      <SafeAreaView className="bg-primary flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#ffffff" />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView className="bg-primary h-full">
-       <View className="flex my-6 px-4 space-y-6">
+ <View className="flex my-6 px-4 space-y-6">
             
             <View className="flex justify-between items-start flex-row mb-6">
               <View>
@@ -61,16 +71,23 @@ export default function HomeScreen() {
             </View>
 
           </View>
-
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        contentContainerStyle={{ paddingBottom: 20, paddingHorizontal: 10 }}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
-        showsVerticalScrollIndicator={false}
+      <FlatList 
+        data={recettes}
+        keyExtractor={(item) => item.id.toString()} // Assurez-vous que `id` est un nombre ou une chaîne
         renderItem={({ item }) => (
-          <PlateCard item={item} />
+          <View className="flex-row mb-5 p-3 border-b border-gray-300">
+            <Image 
+              source={{ uri: `data:image/jpeg;base64,${item.photo}` }} 
+              className="w-20 h-20 mr-4"
+              resizeMode="contain" 
+            />
+            <View className="flex-col justify-center">
+              <Text className="text-lg font-semibold">{item.nom}</Text>
+              <Text className="text-green-500 text-sm">{item.prix}</Text>
+              <Text className="text-green-500 text-sm">{item.tempsCuisson}</Text>
+            </View>
+          </View>
+
         )}
         
         refreshControl={
