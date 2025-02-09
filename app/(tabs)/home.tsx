@@ -15,7 +15,13 @@ export default function HomeScreen() {
           
   const onRefresh = async () => {
     setRefreshing(true);
-  
+    try {
+      const response = await fetch("https://symfony-app-production.up.railway.app/recettes");
+      const data = await response.json();
+      setRecettes(data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des recettes:", error);
+    }
     setRefreshing(false);
   };
 
@@ -35,7 +41,31 @@ export default function HomeScreen() {
   if (loading) {
     return (
       <SafeAreaView className="bg-primary flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#ffffff" />
+         <View className="flex my-6 px-4 space-y-6">
+            
+            <View className="flex justify-between items-start flex-row mb-6">
+              <View>
+                <Text className="font-pmedium text-sm text-gray-100">
+                  Bienvenue !
+                </Text>
+                <Text className="text-2xl mt-5 font-psemibold text-white">
+                  Tiffany
+                </Text>
+              </View>
+
+              <View className="mt-1.5">
+                <Image
+                  source={images.logoSmall}
+                  className="w-9 h-10"
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
+            <SearchInput initialQuery={undefined} onSearch={undefined} />
+          
+
+          </View>
+        <ActivityIndicator size="large" color="#0ED700" />
       </SafeAreaView>
     );
   }
@@ -71,24 +101,22 @@ export default function HomeScreen() {
             </View>
 
           </View>
-      <FlatList 
+     
+         <FlatList 
         data={recettes}
-        keyExtractor={(item) => item.id.toString()} // Assurez-vous que `id` est un nombre ou une chaîne
+        keyExtractor={(item) => item.id.toString()} // Assurez-vous que `id` est une chaîne
         renderItem={({ item }) => (
-          <View className="flex-row mb-5 p-3 border-b border-gray-300">
-            <Image 
-              source={{ uri: `data:image/jpeg;base64,${item.photo}` }} 
-              className="w-20 h-20 mr-4"
-              resizeMode="contain" 
-            />
-            <View className="flex-col justify-center">
-              <Text className="text-lg font-semibold">{item.nom}</Text>
-              <Text className="text-green-500 text-sm">{item.prix}</Text>
-              <Text className="text-green-500 text-sm">{item.tempsCuisson}</Text>
-            </View>
-          </View>
-
+          <PlateCard 
+            item={{ 
+              id: item.id,
+              name: item.nom +" ( c:" +item.tempsCuisson +" min )"  , 
+              price: item.prix +" Ar", 
+              image: `data:image/jpeg;base64,${item.photo}` 
+            }}
+          />
         )}
+        numColumns={2}
+        columnWrapperStyle={{ justifyContent: 'space-between', paddingHorizontal: 10 }}
         
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
