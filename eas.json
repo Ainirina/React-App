@@ -2,19 +2,26 @@
   "cli": {
     "version": ">= 15.0.6",
     "appVersionSource": "remote",
-    "requireCommit":true
+    "requireCommit": true
   },
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
+"build": {
     "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "preview4": {
       "distribution": "internal"
     },
-    "production": {
-      "autoIncrement": true
-    }
+    "production": {}
   },
   "submit": {
     "production": {}
