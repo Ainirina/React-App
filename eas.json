@@ -4,21 +4,24 @@
     "appVersionSource": "remote",
     "requireCommit": true
   },
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
+"build": {
     "preview": {
-      "ios":{
-        "simulator":true
-      },
-      "android":{
-        "buildType":"apk"
+      "android": {
+        "buildType": "apk"
       }
     },
-    "production": {
-    }
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "preview4": {
+      "distribution": "internal"
+    },
+    "production": {}
   },
   "submit": {
     "production": {}
