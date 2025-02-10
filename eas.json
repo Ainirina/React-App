@@ -2,7 +2,7 @@
   "cli": {
     "version": ">= 15.0.6",
     "appVersionSource": "remote",
-    "requireCommit":true
+    "requireCommit": true
   },
   "build": {
     "development": {
@@ -10,10 +10,14 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "ios":{
+        "simulator":true
+      },
+      "android":{
+        "buildType":"apk"
+      }
     },
     "production": {
-      "autoIncrement": true
     }
   },
   "submit": {
